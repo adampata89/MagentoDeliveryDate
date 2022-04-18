@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="delivery_date" resource="checkout" engine="innodb"
+           comment="Delivery date">
+        <column xsi:type="int" name="entity_id" unsigned="false" nullable="false" identity="true" comment="Id"/>
+        <column xsi:type="int" name="quote_id" unsigned="true" nullable="false" identity="false" default="0" comment="Quote ID"/>
+        <column xsi:type="int" name="order_id" unsigned="true"  comment="Order ID"/>
+        <column xsi:type="datetime" name="delivery_date" nullable="true" default="0" comment="Delivery_date"/>
+        <column xsi:type="varchar" name="comment" nullable="true" default="0" comment="Comment"/>
+
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="DLV_DATE_QOT_ORD_ID_UNIQUE">
+            <column name="quote_id"/>
+            <column name="order_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="DELIVERYDATE_QUOTEID_QUOTE_ENTITYID_ID" table="delivery_date" column="quote_id" referenceTable="quote" referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="DELIVERYDATE_ORDERID_SALESORDERGRID_ENTITYID_ID" table="delivery_date" column="order_id" referenceTable="sales_order" referenceColumn="entity_id" onDelete="CASCADE"/>
+    </table>
+</schema>
